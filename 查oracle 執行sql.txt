@@ -1,0 +1,43 @@
+SELECT a.SID,c.spid,a.machine,b.sql_text 
+FROM v$session a,v$sqltext b,v$process c 
+WHERE a.SQL_ADDRESS=b.ADDRESS 
+AND a.paddr=c.addr 
+AND c.spid='17219' 
+ORDER BY piece ASC;
+
+
+
+SELECT b.sid ,
+       b.username ,
+       b.serial#,
+       spid ,
+       paddr,
+       sql_text ,
+       b.machine 
+FROM v$process a, v$session b, v$sqlarea c
+WHERE a.addr = b.paddr
+   AND b.sql_hash_value = c.hash_value and a.SPID='174'
+   
+   
+   
+ 
+SELECT l.session_id sid,
+       s.serial#,
+       l.locked_mode ,
+       l.oracle_username ,
+       l.os_user_name ,
+       s.machine ,
+       s.terminal ,
+       o.object_name ,
+       s.logon_time 
+FROM v$locked_object l, all_objects o, v$session s
+WHERE l.object_id = o.object_id
+   AND l.session_id = s.sid
+ORDER BY sid, s.serial#;
+
+ 
+
+--kill掉?前的??象可以?
+
+alter system kill session 'sid， s.serial#‘;
+
